@@ -26,7 +26,8 @@
     "zendframework/zend-stratigility": "^3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.0"
+    "phpunit/phpunit": "^6.0",
+    "friendsofphp/php-cs-fixer": "^2.13"
   },
   "autoload": {
     "psr-4": {
@@ -41,6 +42,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "test": "vendor/bin/phpunit"
+    "test": "vendor/bin/phpunit",
+    "fix-cs": "vendor/bin/php-cs-fixer fix"
   }
 }

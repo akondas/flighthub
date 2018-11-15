@@ -24,7 +24,6 @@ final class MessageSchemaMiddleware implements RequestHandlerInterface
         $this->eventMachine = $eventMachine;
     }
 
-
     /**
      * Handle the request and return a response.
      *
@@ -68,8 +67,8 @@ final class MessageSchemaMiddleware implements RequestHandlerInterface
             'openapi' => '3.0.0',
             'servers' => [
                 [
-                    'description' => 'Event Machine ' . $this->eventMachine->env() . ' server',
-                    'url' => (string)$serverUrl
+                    'description' => 'Event Machine '.$this->eventMachine->env().' server',
+                    'url' => (string) $serverUrl
                 ]
             ],
             'info' => [
@@ -92,7 +91,7 @@ final class MessageSchemaMiddleware implements RequestHandlerInterface
                 ]
             ],
             'paths' => $paths,
-            'components' =>  ['schemas' => $componentSchemas],
+            'components' => ['schemas' => $componentSchemas],
         ];
 
         return new JsonResponse($schema);
@@ -102,7 +101,7 @@ final class MessageSchemaMiddleware implements RequestHandlerInterface
     {
         $responses = [];
 
-        if($messageType === Message::TYPE_QUERY) {
+        if ($messageType === Message::TYPE_QUERY) {
             $responses['200'] = [
                 'description' => $messageSchema['response']['description'] ?? $messageName,
                 'content' => [
@@ -163,13 +162,13 @@ final class MessageSchemaMiddleware implements RequestHandlerInterface
 
     private function jsonSchemaToOpenApiSchema(array $jsonSchema): array
     {
-        if(isset($jsonSchema['type']) && is_array($jsonSchema['type'])) {
+        if (isset($jsonSchema['type']) && is_array($jsonSchema['type'])) {
             $type = null;
             $containsNull = false;
             foreach ($jsonSchema['type'] as $possibleType) {
-                if(mb_strtolower($possibleType) !== 'null') {
-                    if($type) {
-                        throw new \RuntimeException("Got JSON Schema type defined as an array with more than one type + NULL set. " . json_encode($jsonSchema));
+                if (mb_strtolower($possibleType) !== 'null') {
+                    if ($type) {
+                        throw new \RuntimeException('Got JSON Schema type defined as an array with more than one type + NULL set. '.json_encode($jsonSchema));
                     }
                     $type = $possibleType;
                 } else {
@@ -177,22 +176,22 @@ final class MessageSchemaMiddleware implements RequestHandlerInterface
                 }
             }
             $jsonSchema['type'] = $type;
-            if($containsNull) {
+            if ($containsNull) {
                 $jsonSchema['nullable'] = true;
             }
         }
 
-        if(isset($jsonSchema['properties']) && is_array($jsonSchema['properties'])) {
+        if (isset($jsonSchema['properties']) && is_array($jsonSchema['properties'])) {
             foreach ($jsonSchema['properties'] as $propName => $propSchema) {
                 $jsonSchema['properties'][$propName] = $this->jsonSchemaToOpenApiSchema($propSchema);
             }
         }
 
-        if(isset($jsonSchema['items']) && is_array($jsonSchema['items'])) {
+        if (isset($jsonSchema['items']) && is_array($jsonSchema['items'])) {
             $jsonSchema['items'] = $this->jsonSchemaToOpenApiSchema($jsonSchema['items']);
         }
 
-        if(isset($jsonSchema['$ref'])) {
+        if (isset($jsonSchema['$ref'])) {
             $jsonSchema['$ref'] = str_replace('definitions', 'components/schemas', $jsonSchema['$ref']);
         }
 

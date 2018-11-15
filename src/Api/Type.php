@@ -30,6 +30,7 @@ class Type implements EventMachineDescription
      * }
      *
      * Queries should only use type references as return types (at least when return type is an object).
+     *
      * @see \FlightHub\Api\Query for more about query return types
      */
 
@@ -53,6 +54,7 @@ class Type implements EventMachineDescription
 
         /**
          * Register all types returned by queries
+         *
          * @see \FlightHub\Api\Query for more details about return types
          *
          * @example

@@ -17,7 +17,6 @@ class Aggregate implements EventMachineDescription
      * const USER = 'User';
      */
 
-
     /**
      * @param EventMachine $eventMachine
      */

@@ -45,9 +45,9 @@ class Schema
         return JsonSchema::typeRef(Type::HEALTH_CHECK);
     }
 
-
     /**
      * Can be used as JsonSchema::object() (optional) property definition in query payloads to enable pagination
+     *
      * @return array
      */
     public static function queryPagination(): array

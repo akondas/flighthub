@@ -22,7 +22,6 @@ class Command implements EventMachineDescription
      * const REGISTER_USER = self::COMMAND_CONTEXT . 'RegisterUser';
      */
 
-
     /**
      * @param EventMachine $eventMachine
      */

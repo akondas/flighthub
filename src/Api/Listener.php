@@ -9,7 +9,6 @@ use Prooph\EventMachine\EventMachineDescription;
 
 class Listener implements EventMachineDescription
 {
-
     public static function describe(EventMachine $eventMachine): void
     {
         /**

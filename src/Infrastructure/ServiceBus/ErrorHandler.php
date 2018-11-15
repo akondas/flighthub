@@ -18,9 +18,10 @@ final class ErrorHandler implements Plugin
         //Register finalize handler that throws original exception before message bus throws a wrapped MessageDispatchException
         $this->handler = $messageBus->attach(MessageBus::EVENT_FINALIZE, function (ActionEvent $actionEvent): void {
             if ($exception = $actionEvent->getParam(MessageBus::EVENT_PARAM_EXCEPTION)) {
-                if($deferred = $actionEvent->getParam(QueryBus::EVENT_PARAM_DEFERRED)) {
+                if ($deferred = $actionEvent->getParam(QueryBus::EVENT_PARAM_DEFERRED)) {
                     $deferred->reject($exception);
                     $actionEvent->setParam(MessageBus::EVENT_PARAM_EXCEPTION, null);
+
                     return;
                 }
 

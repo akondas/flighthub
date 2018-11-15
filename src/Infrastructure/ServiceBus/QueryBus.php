@@ -11,7 +11,7 @@ class QueryBus extends ProophQueryBus
 {
     protected function getMessageName($message): string
     {
-        if($message instanceof GenericJsonSchemaMessage) {
+        if ($message instanceof GenericJsonSchemaMessage) {
             return $message->messageName();
         }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FlightHub\Api;
 
-
 use Prooph\EventMachine\EventMachine;
 use Prooph\EventMachine\EventMachineDescription;
 

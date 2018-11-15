@@ -20,7 +20,7 @@ class BaseTestCase extends TestCase
     {
         $this->eventMachine = new EventMachine();
 
-        $config = include __DIR__ . '/../config/autoload/global.php';
+        $config = include __DIR__.'/../config/autoload/global.php';
 
         foreach ($config['event_machine']['descriptions'] as $description) {
             $this->eventMachine->load($description);
@@ -47,22 +47,22 @@ class BaseTestCase extends TestCase
         $isRecorded = false;
 
         foreach ($events as $evt) {
-            if($evt === null) {
+            if ($evt === null) {
                 continue;
             }
 
             [$evtName, $evtPayload] = $evt;
 
-            if($eventName === $evtName) {
+            if ($eventName === $evtName) {
                 $isRecorded = true;
 
-                if(!$assertNotRecorded) {
+                if (!$assertNotRecorded) {
                     $this->assertEquals($payload, $evtPayload, "Payload of recorded event $evtName does not match with expected payload.");
                 }
             }
         }
 
-        if($assertNotRecorded) {
+        if ($assertNotRecorded) {
             $this->assertFalse($isRecorded, "Event $eventName is recorded");
         } else {
             $this->assertTrue($isRecorded, "Event $eventName is not recorded");

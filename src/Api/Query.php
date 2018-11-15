@@ -44,6 +44,7 @@ class Query implements EventMachineDescription
          *
          * Each query also has a return type, which can be a JsonSchema::TYPE_ARRAY or one of the scalar JsonSchema types.
          * If the query returns an object (for example user data), this object should be registered in EventMachine as a Type
+         *
          * @see \FlightHub\Api\Type for details
          * @see \FlightHub\Api\Schema for best practise of how to reuse return type schemas
          *
@@ -57,7 +58,7 @@ class Query implements EventMachineDescription
          *
          * //Register a second query to load many Users, this query takes an optional Payload::ACTIVE argument
          * $eventMachine->registerQuery(self::Users, JsonSchema::object([], [
-         *      Payload::ACTIVE => JsonSchema::nullOr(JsonSchema::boolean()) 
+         *      Payload::ACTIVE => JsonSchema::nullOr(JsonSchema::boolean())
          * ]))
          *  ->resolveWith(UsersResolver::class)
          *  ->setReturnType(JsonSchema::array(Schema::user())); //<-- Return type is an array of Schema::user() (type reference to Type::USER)
