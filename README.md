@@ -1,2 +1,2 @@
-# flighthub
+# FlightHub
 Flight ticket booking system 

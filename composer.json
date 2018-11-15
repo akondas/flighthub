@@ -1,0 +1,46 @@
+{
+  "name": "akondas/flighthub",
+  "description": "Flight ticket booking system powered by Event Machine from prooph",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Arkadiusz Kondas",
+      "email": "arkadiusz.kondas@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "monolog/monolog": "^1.21",
+    "nikic/fast-route": "^1.0",
+    "prooph/humus-amqp-producer": "^2.0",
+    "prooph/pdo-event-store": "^1.0",
+    "proophsoftware/event-machine": "^v0.18",
+    "proophsoftware/postgres-document-store": "^0.3",
+    "psr/http-server-middleware": "^1.0",
+    "psr/log": "^1.0",
+    "roave/security-advisories": "dev-master",
+    "zendframework/zend-config-aggregator": "^0.2.0",
+    "zendframework/zend-expressive-helpers": "^5.0",
+    "zendframework/zend-problem-details": "^1.0",
+    "zendframework/zend-stdlib": "^3.1.0",
+    "zendframework/zend-stratigility": "^3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "FlightHub\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "FlightHubTest\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  }
+}
