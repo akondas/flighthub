@@ -24,4 +24,4 @@ before_script:
 
 script:
 - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then composer check-cs; fi
-- composer test; fi
+- composer test
