@@ -18,8 +18,8 @@ class Command implements EventMachineDescription
             self::ADD_FLIGHT,
             JsonSchema::object(
                 [
-                    'id' => JsonSchema::uuid(),
-                    'number' => JsonSchema::string(['pattern' => '^[A-Z0-9]{3,}$'])
+                    Payload::ID => Schema::id(),
+                    Payload::NUMBER => Schema::flightNumber()
                 ]
             )
         );
