@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FlightHub\Service;
 
 use FlightHub\Api\Aggregate;
-use FlightHub\Http\ErrorResponseGenerator;
 use FlightHub\Http\MessageSchemaMiddleware;
 use FlightHub\Infrastructure\Finder\FlightFinder;
 use FlightHub\Infrastructure\Logger\PsrErrorLogger;
