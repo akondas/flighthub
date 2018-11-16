@@ -1,4 +1,9 @@
 # FlightHub
+
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg)](https://php.net/)
+[![Build Status](https://travis-ci.org/akondas/flighthub.svg?branch=master)](https://travis-ci.org/akondas/flighthub)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Flight ticket booking system.
 
 ![FlightHub](eventstorming.png "FlightHub")
