@@ -1,6 +1,10 @@
 # FlightHub
 Flight ticket booking system.
 
+![FlightHub](eventstorming.png "FlightHub")
+
+> Graph generated from `eventstorming.md` using webeventstorming.com
+
 ## Features
 
 ### Commands
