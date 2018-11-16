@@ -5,51 +5,43 @@ declare(strict_types=1);
 namespace FlightHub\Api;
 
 use Prooph\EventMachine\JsonSchema\JsonSchema;
+use Prooph\EventMachine\JsonSchema\Type\ArrayType;
 use Prooph\EventMachine\JsonSchema\Type\StringType;
 use Prooph\EventMachine\JsonSchema\Type\TypeRef;
+use Prooph\EventMachine\JsonSchema\Type\UuidType;
 
 class Schema
 {
-    /**
-     * This class acts as a central place for all schema related information.
-     * In event machine you use JSON Schema for message validation.
-     *
-     * It is a good idea to use static methods for schema definitions so that you don't need to repeat them when
-     * defining message payloads or query return types.
-     *
-     * //Wrap basic JSON schema types with validation rules by domain specific types that you use in other schema definitions
-     *
-     * public static function user(): TypeRef
-     * {
-     *      return JsonSchema::typeRef(Type::USER);
-     * }
-     *
-     * public static function userId(): UuidType
-     * {
-     *      return JsonSchema::uuid();
-     * }
-     *
-     * public static function username(): StringType
-     * {
-     *      return JsonSchema::string(['minLength' => 1])
-     * }
-     */
+    public static function id(): UuidType
+    {
+        return JsonSchema::uuid();
+    }
 
-    /**
-     * Common schema definitions that are useful in nearly any application.
-     * Add more or remove unneeded depending on project needs.
-     */
+    public static function flightNumber(): StringType
+    {
+        return JsonSchema::string(['pattern' => '^[A-Z0-9]{3,}$']);
+    }
+
+    public static function flightNumberFilter(): StringType
+    {
+        return JsonSchema::string()->withMinLength(1);
+    }
+
+    public static function flight(): TypeRef
+    {
+        return JsonSchema::typeRef(Aggregate::FLIGHT);
+    }
+
+    public static function flightList(): ArrayType
+    {
+        return JsonSchema::array(self::flight());
+    }
+
     public static function healthCheck(): TypeRef
     {
-        //Health check schema is a type reference to the registered Type::HEALTH_CHECK
         return JsonSchema::typeRef(Type::HEALTH_CHECK);
     }
 
-    /**
-     * Can be used as JsonSchema::object() (optional) property definition in query payloads to enable pagination
-     *
-     * @return array
-     */
     public static function queryPagination(): array
     {
         return [

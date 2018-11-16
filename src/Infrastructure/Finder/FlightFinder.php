@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FlightHub\Infrastructure\Finder;
 
+use FlightHub\Api\Payload;
 use FlightHub\Api\Query;
 use Prooph\EventMachine\Messaging\Message;
 use Prooph\EventMachine\Persistence\DocumentStore;
@@ -31,17 +32,17 @@ final class FlightFinder
     {
         switch ($flightQuery->messageName()) {
             case Query::FLIGHT:
-                $this->resolveFlight($deferred, $flightQuery->get('id'));
+                $this->resolveFlight($deferred, $flightQuery->get(Payload::ID));
                 break;
             case Query::FLIGHTS:
-                $this->resolveFlights($deferred, $flightQuery->getOrDefault('number', null));
+                $this->resolveFlights($deferred, $flightQuery->getOrDefault(Payload::NUMBER, null));
                 break;
         }
     }
 
     private function resolveFlight(Message $flightQuery, Deferred $deferred): void
     {
-        $flightDoc = $this->documentStore->getDoc($this->collectionName, $flightQuery->get('id'));
+        $flightDoc = $this->documentStore->getDoc($this->collectionName, $flightQuery->get(Payload::ID));
 
         if (!$flightDoc) {
             $deferred->reject(new \RuntimeException('Flight not found', 404));
@@ -55,7 +56,7 @@ final class FlightFinder
     private function resolveFlights(Deferred $deferred, string $numberFilter = null): array
     {
         $filter = $numberFilter?
-            new DocumentStore\Filter\LikeFilter('number', "%$numberFilter%")
+            new DocumentStore\Filter\LikeFilter(Payload::NUMBER, "%$numberFilter%")
             : new DocumentStore\Filter\AnyFilter();
 
         $cursor = $this->documentStore->filterDocs($this->collectionName, $filter);

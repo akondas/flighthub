@@ -1,0 +1,27 @@
+language: php
+
+matrix:
+    fast_finish: true
+    include:
+    - php: 7.1
+      env:
+      - EXECUTE_CS_CHECK=true
+
+    - php: 7.2
+      env:
+      - EXECUTE_CS_CHECK=false
+
+cache:
+    directories:
+    - $HOME/.composer/cache
+    - $HOME/.php-cs-fixer
+    - $HOME/.local
+
+before_script:
+- mkdir -p "$HOME/.php-cs-fixer"
+- phpenv config-rm xdebug.ini
+- composer install
+
+script:
+- if [[ $EXECUTE_CS_CHECK == 'true' ]]; then composer check-cs; fi
+- composer test; fi

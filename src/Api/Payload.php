@@ -6,21 +6,9 @@ namespace FlightHub\Api;
 
 class Payload
 {
-    /**
-     * It is recommended to define all possible message payload keys as constants instead of using strings in your code.
-     * This makes it easy to find all places in the source code that work with the payload.
-     *
-     * @example
-     *
-     * const USER_ID = 'userId';
-     * const USERNAME = 'username';
-     *
-     * Let's say you have a Command::REGISTER_USER and you want to get the USERNAME from the command payload:
-     *
-     * $username = $registerUser->get(Payload::USERNAME); //This is readable and eases refactoring in a larger code base.
-     */
+    public const SKIP = 'skip';
+    public const LIMIT = 'limit';
 
-    //Predefined keys for query payloads, see FlightHub\Api\Schema::queryPagination() for further information
-    const SKIP = 'skip';
-    const LIMIT = 'limit';
+    public const ID = 'id';
+    public const NUMBER = 'number';
 }

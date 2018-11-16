@@ -18,24 +18,21 @@ class Query implements EventMachineDescription
 
     public static function describe(EventMachine $eventMachine): void
     {
-        //Default query: can be used to check if service is up and running
-        $eventMachine->registerQuery(self::HEALTH_CHECK) //<-- Payload schema is optional for queries
-            ->resolveWith(HealthCheckResolver::class) //<-- Service id (usually FQCN) to get resolver from DI container
-            ->setReturnType(Schema::healthCheck()); //<-- Type returned by resolver
+        $eventMachine->registerQuery(self::HEALTH_CHECK)
+            ->resolveWith(HealthCheckResolver::class)
+            ->setReturnType(Schema::healthCheck());
 
         $eventMachine->registerQuery(self::FLIGHT, JsonSchema::object([
-            'id' => JsonSchema::uuid(),
+            Payload::ID => Schema::id(),
         ]))
             ->resolveWith(FlightFinder::class)
-            ->setReturnType(JsonSchema::typeRef(Aggregate::FLIGHT));
+            ->setReturnType(Schema::flight());
 
         $eventMachine->registerQuery(self::FLIGHTS, JsonSchema::object(
                 [],
-                ['number' => JsonSchema::nullOr(JsonSchema::string()->withMinLength(1))]
+                [Payload::NUMBER => JsonSchema::nullOr(Schema::flightNumberFilter())]
         ))
             ->resolveWith(FlightFinder::class)
-            ->setReturnType(JsonSchema::array(
-                JsonSchema::typeRef(Aggregate::FLIGHT)
-            ));
+            ->setReturnType(Schema::flightList());
     }
 }

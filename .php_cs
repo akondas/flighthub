@@ -25,6 +25,7 @@ return PhpCsFixer\Config::create()
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
+            ->notPath('Service/ServiceFactory.php')
             ->in(__DIR__ . '/src')
             ->in(__DIR__ . '/tests')
     )

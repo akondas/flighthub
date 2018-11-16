@@ -18,8 +18,8 @@ class Event implements EventMachineDescription
             self::FLIGHT_ADDED,
             JsonSchema::object(
                 [
-                    'id' => JsonSchema::uuid(),
-                    'number' => JsonSchema::string(['pattern' => '^[A-Z0-9]{3,}$'])
+                    Payload::ID => Schema::id(),
+                    Payload::NUMBER => Schema::flightNumber()
                 ]
             )
         );
