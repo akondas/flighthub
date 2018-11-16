@@ -2,8 +2,10 @@
 
 namespace FlightHub\Service;
 
+use FlightHub\Api\Aggregate;
 use FlightHub\Http\ErrorResponseGenerator;
 use FlightHub\Http\MessageSchemaMiddleware;
+use FlightHub\Infrastructure\Finder\FlightFinder;
 use FlightHub\Infrastructure\Logger\PsrErrorLogger;
 use FlightHub\Infrastructure\ServiceBus\CommandBus;
 use FlightHub\Infrastructure\ServiceBus\EventBus;
@@ -62,6 +64,20 @@ final class ServiceFactory
     public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
+    }
+
+    //Finders
+    public function flightFinder(): FlightFinder
+    {
+        return $this->makeSingleton(FlightFinder::class, function () {
+            return new FlightFinder(
+                AggregateProjector::aggregateCollectionName(
+                    $this->eventMachine()->appVersion(),
+                    Aggregate::FLIGHT
+                ),
+                $this->documentStore()
+            );
+        });
     }
 
     //HTTP endpoints
