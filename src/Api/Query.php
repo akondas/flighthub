@@ -23,7 +23,7 @@ class Query implements EventMachineDescription
             ->setReturnType(Schema::healthCheck());
 
         $eventMachine->registerQuery(self::FLIGHT, JsonSchema::object([
-            Payload::ID => Schema::id(),
+            Payload::FLIGHT_ID => Schema::id(),
         ]))
             ->resolveWith(FlightFinder::class)
             ->setReturnType(Schema::flight());

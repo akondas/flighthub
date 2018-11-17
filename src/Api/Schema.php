@@ -22,6 +22,11 @@ class Schema
         return JsonSchema::string(['pattern' => '^[A-Z0-9]{3,}$']);
     }
 
+    public static function seat(): StringType
+    {
+        return JsonSchema::string(['pattern' => '[0-9]{1,2}[A-Z]{1}$']);
+    }
+
     public static function flightNumberFilter(): StringType
     {
         return JsonSchema::string()->withMinLength(1);
