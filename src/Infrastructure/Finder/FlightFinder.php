@@ -32,7 +32,7 @@ final class FlightFinder
     {
         switch ($flightQuery->messageName()) {
             case Query::FLIGHT:
-                $this->resolveFlight($deferred, $flightQuery->get(Payload::ID));
+                $this->resolveFlight($deferred, $flightQuery->get(Payload::FLIGHT_ID));
                 break;
             case Query::FLIGHTS:
                 $this->resolveFlights($deferred, $flightQuery->getOrDefault(Payload::NUMBER, null));
@@ -42,7 +42,7 @@ final class FlightFinder
 
     private function resolveFlight(Message $flightQuery, Deferred $deferred): void
     {
-        $flightDoc = $this->documentStore->getDoc($this->collectionName, $flightQuery->get(Payload::ID));
+        $flightDoc = $this->documentStore->getDoc($this->collectionName, $flightQuery->get(Payload::FLIGHT_ID));
 
         if (!$flightDoc) {
             $deferred->reject(new \RuntimeException('Flight not found', 404));

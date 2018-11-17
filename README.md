@@ -14,7 +14,7 @@ Flight ticket booking system.
 
 ### Commands
 - [x] Adding new flight
-- [ ] Reserve ticket
+- [x] Reserve ticket
 - [ ] Confirm reservation
 - [ ] Cancel reservation 
 

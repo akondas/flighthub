@@ -13,6 +13,7 @@ use FlightHub\Domain\Flight;
 class Type implements EventMachineDescription
 {
     public const HEALTH_CHECK = 'HealthCheck';
+    public const RESERVATION = 'Reservation';
 
     private static function healthCheck(): ObjectType
     {
@@ -30,5 +31,6 @@ class Type implements EventMachineDescription
         $eventMachine->registerType(self::HEALTH_CHECK, self::healthCheck());
 
         $eventMachine->registerType(Aggregate::FLIGHT, Flight\State::__schema());
+        $eventMachine->registerType(self::RESERVATION, Flight\Reservation::__schema());
     }
 }

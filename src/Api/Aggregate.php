@@ -16,10 +16,17 @@ class Aggregate implements EventMachineDescription
     {
         $eventMachine->process(Command::ADD_FLIGHT)
             ->withNew(self::FLIGHT)
-            ->identifiedBy('id')
+            ->identifiedBy(Payload::FLIGHT_ID)
             ->handle([Flight::class, 'add'])
             ->recordThat(Event::FLIGHT_ADDED)
             ->apply([Flight::class, 'whenFlightAdded'])
+        ;
+
+        $eventMachine->process(Command::RESERVE_TICKET)
+            ->withExisting(self::FLIGHT)
+            ->handle([Flight::class, 'reserveTicket'])
+            ->recordThat(Event::TICKET_RESERVED)
+            ->apply([Flight::class, 'whenTicketReserved'])
         ;
     }
 }

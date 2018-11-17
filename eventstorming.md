@@ -1,17 +1,18 @@
 #FlightHub
 
-AddFlight-> //id, number
-FlightAdded //id
+AddFlight-> //flightId, number
+FlightAdded //flightId, number
 
-ReserveTicket-> //id, flightId, seat
-TicketReserved //id
+ReserveTicket-> //reservationId, userId, flightId, seat
+TicketReserved //reservationId, userId, flightId, seat
 
-ConfirmReservation-> //id
-ReservationConfirmed //id
+ConfirmReservation-> //reservationId
+ReservationConfirmed //reservationId
 
-CancelReservation-> //id
-ReservationCanceled //id
+CancelReservation-> //reservationId
+ReservationCanceled //reservationId
 
 Flights*
 Reservations*
 Tickets*
+Users*
