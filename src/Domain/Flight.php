@@ -29,7 +29,7 @@ final class Flight extends Aggregate
     private $reservations = [];
 
     /**
-     * @var string[]
+     * @var bool[]
      */
     private $blockedSeats = [];
 

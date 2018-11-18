@@ -29,7 +29,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^6.0",
-    "friendsofphp/php-cs-fixer": "^2.13"
+    "friendsofphp/php-cs-fixer": "^2.13",
+    "phpstan/phpstan": "^0.10.5"
   },
   "autoload": {
     "psr-4": {
@@ -46,6 +47,7 @@
   "scripts": {
     "test": "vendor/bin/phpunit",
     "fix-cs": "vendor/bin/php-cs-fixer fix",
-    "check-cs": "vendor/bin/php-cs-fixer fix --dry-run"
+    "check-cs": "vendor/bin/php-cs-fixer fix --dry-run",
+    "phpstan": "vendor/bin/phpstan analyse src tests --level=max"
   }
 }

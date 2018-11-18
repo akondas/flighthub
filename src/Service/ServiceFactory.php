@@ -267,7 +267,7 @@ final class ServiceFactory
                     ServerRequestInterface $request,
                     \Throwable $e
                 ) : ResponseInterface {
-                    if($e instanceof MessageDispatchException) {
+                    if($e instanceof MessageDispatchException && $e->getPrevious() !== null) {
                         $e = $e->getPrevious();
                     }
 
