@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace FlightHub\Infrastructure\System;
 
-use Prooph\EventMachine\Messaging\Message;
+use FlightHub\Application\Query\HealthCheck;
 use React\Promise\Deferred;
 
 final class HealthCheckResolver
 {
-    public function __invoke(Message $healthCheck, Deferred $deferred): void
+    public function __invoke(HealthCheck $query, Deferred $deferred): void
     {
         $deferred->resolve([
             'system' => true

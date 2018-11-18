@@ -4,73 +4,42 @@ declare(strict_types=1);
 
 namespace FlightHubTest;
 
+use FlightHub\Domain\Aggregate;
+use FlightHub\Domain\Event;
 use PHPUnit\Framework\TestCase;
-use Prooph\EventMachine\Container\EventMachineContainer;
-use Prooph\EventMachine\EventMachine;
-use Prooph\EventMachine\Messaging\Message;
+use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 
 class BaseTestCase extends TestCase
 {
-    /**
-     * @var EventMachine
-     */
-    protected $eventMachine;
-
-    protected function setUp()
+    protected static function applyEvents(Aggregate $aggregate): void
     {
-        $this->eventMachine = new EventMachine();
-
-        $config = include __DIR__.'/../config/autoload/global.php';
-
-        foreach ($config['event_machine']['descriptions'] as $description) {
-            $this->eventMachine->load($description);
+        foreach ($aggregate->popRecordedEvents() as $event) {
+            $aggregate->apply($event);
         }
-
-        $this->eventMachine->initialize(new EventMachineContainer($this->eventMachine));
     }
 
-    protected function tearDown()
+    protected static function assertRecordedEvent(Event $event, Aggregate $aggregate, bool $assertNotRecorded = false): void
     {
-        $this->eventMachine = null;
-    }
-
-    protected function message(string $msgName, array $payload = [], array $metadata = []): Message
-    {
-        return $this->eventMachine->messageFactory()->createMessageFromArray($msgName, [
-            'payload' => $payload,
-            'metadata' => $metadata
-        ]);
-    }
-
-    protected function assertRecordedEvent(string $eventName, array $payload, array $events, $assertNotRecorded = false): void
-    {
-        $isRecorded = false;
+        $propertyNormalizer = new PropertyNormalizer();
+        $events = $aggregate->popRecordedEvents();
+        $recorded = false;
 
         foreach ($events as $evt) {
-            if ($evt === null) {
-                continue;
-            }
-
-            [$evtName, $evtPayload] = $evt;
-
-            if ($eventName === $evtName) {
-                $isRecorded = true;
-
-                if (!$assertNotRecorded) {
-                    $this->assertEquals($payload, $evtPayload, "Payload of recorded event $evtName does not match with expected payload.");
-                }
+            if (\get_class($event) === \get_class($evt) && $propertyNormalizer->normalize($event) === $propertyNormalizer->normalize($evt)) {
+                $recorded = true;
+                break;
             }
         }
 
         if ($assertNotRecorded) {
-            $this->assertFalse($isRecorded, "Event $eventName is recorded");
+            self::assertFalse($recorded, sprintf('Event %s is recorded', \get_class($event)));
         } else {
-            $this->assertTrue($isRecorded, "Event $eventName is not recorded");
+            self::assertTrue($recorded, sprintf('Event %s is not recorded', \get_class($event)));
         }
     }
 
-    protected function assertNotRecordedEvent(string $eventName, array $events): void
+    protected static function assertNotRecordedEvent(Event $event, Aggregate $aggregate): void
     {
-        $this->assertRecordedEvent($eventName, [], $events, true);
+        self::assertRecordedEvent($event, $aggregate, true);
     }
 }

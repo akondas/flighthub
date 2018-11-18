@@ -147,7 +147,7 @@ final class MessageSchemaMiddleware implements RequestHandlerInterface
                                 'schema' => [
                                     'type' => 'object',
                                     'properties' => [
-                                        'payload' => $this->jsonSchemaToOpenApiSchema($messageSchema)
+                                        'payload' => $this->jsonSchemaToOpenApiSchema($messageSchema ?? [])
                                     ],
                                     'required' => ['payload']
                                 ]

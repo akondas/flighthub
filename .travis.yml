@@ -9,11 +9,13 @@ matrix:
     include:
     - php: 7.1
       env:
-      - EXECUTE_CS_CHECK=true
+      - EXECUTE_CS_CHECK=false
+      - EXECUTE_PHPSTAN=false
 
     - php: 7.2
       env:
-      - EXECUTE_CS_CHECK=false
+      - EXECUTE_CS_CHECK=true
+      - EXECUTE_PHPSTAN=true
 
 cache:
     directories:
@@ -28,4 +30,5 @@ before_script:
 
 script:
 - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then composer check-cs; fi
+- if [[ EXECUTE_PHPSTAN == 'true' ]]; then composer phpstan; fi
 - composer test
