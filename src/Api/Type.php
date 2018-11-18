@@ -22,6 +22,14 @@ class Type implements EventMachineDescription
         ]);
     }
 
+    private static function flight(): ObjectType
+    {
+        return JsonSchema::object([
+            Payload::FLIGHT_ID => Schema::id(),
+            Payload::NUMBER => Schema::flightNumber()
+        ]);
+    }
+
     /**
      * @param EventMachine $eventMachine
      */
@@ -30,7 +38,6 @@ class Type implements EventMachineDescription
         //Register the HealthCheck type returned by @see \FlightHub\Api\Query::HEALTH_CHECK
         $eventMachine->registerType(self::HEALTH_CHECK, self::healthCheck());
 
-        $eventMachine->registerType(Aggregate::FLIGHT, Flight\State::__schema());
-        $eventMachine->registerType(self::RESERVATION, Flight\Reservation::__schema());
+        $eventMachine->registerType(Aggregate::FLIGHT, self::flight());
     }
 }

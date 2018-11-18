@@ -6,6 +6,7 @@ namespace FlightHub\Config;
 use FlightHub\Api\Aggregate;
 use FlightHub\Api\Command;
 use FlightHub\Api\Event;
+use FlightHub\Api\Handler;
 use FlightHub\Api\Listener;
 use FlightHub\Api\Projection;
 use FlightHub\Api\Query;
@@ -39,7 +40,7 @@ return [
             Command::class,
             Event::class,
             Query::class,
-            Aggregate::class,
+            Handler::class,
             Projection::class,
             Listener::class,
         ]

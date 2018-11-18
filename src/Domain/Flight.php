@@ -8,54 +8,111 @@ use FlightHub\Api\Event;
 use FlightHub\Api\Payload;
 use FlightHub\Domain\Exception\FlightConcurrencyException;
 use FlightHub\Domain\Flight\Reservation;
-use FlightHub\Domain\Flight\State;
 use Prooph\EventMachine\Messaging\Message;
 
-final class Flight
+final class Flight implements \JsonSerializable
 {
-    public static function add(Message $addFlight): \Generator
+    /**
+     * @var string
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $number;
+
+    /**
+     * @var Reservation[]
+     */
+    private $reservations = [];
+
+    /**
+     * @var string[]
+     */
+    private $blockedSeats = [];
+
+    /**
+     * @var int
+     */
+    private $version = 1;
+
+    private function __construct(string $id, string $number)
     {
-        yield [Event::FLIGHT_ADDED, $addFlight->payload()];
+        $this->id = $id;
+        $this->number = $number;
     }
 
-    public static function whenFlightAdded(Message $flightAdded): State
+    public static function add(string $id, string $number): \Generator
     {
-        return State::fromArray($flightAdded->payload());
+        yield [Event::FLIGHT_ADDED, [
+            Payload::FLIGHT_ID => $id,
+            Payload::NUMBER => $number
+        ]];
     }
 
-    public static function reserveTicket(State $state, Message $reserveTicket): \Generator
+    public static function whenFlightAdded(Message $flightAdded): self
     {
-        if (!$state->isSeatAvailable($reserveTicket->get(Payload::SEAT))) {
-            throw new \DomainException(sprintf('Seat %s is not available', $reserveTicket->get(Payload::SEAT)));
+        return new self($flightAdded->get(Payload::FLIGHT_ID), $flightAdded->get(Payload::NUMBER));
+    }
+
+    public function reserveTicket(string $reservationId, string $userId, string $seat): \Generator
+    {
+        if (!$this->isSeatAvailable($seat)) {
+            throw new \DomainException(sprintf('Seat %s is not available', $seat));
         }
 
-        yield [Event::TICKET_RESERVED, $reserveTicket->payload()];
+        yield [Event::TICKET_RESERVED, [
+            Payload::FLIGHT_ID => $this->id,
+            Payload::RESERVATION_ID => $reservationId,
+            Payload::USER_ID => $userId,
+            Payload::SEAT => $seat
+        ]];
     }
 
-    public static function whenTicketReserved(State $state, Message $reserveTicket): State
+    public function whenTicketReserved(Message $ticketReserved): void
     {
-        return $state->withReservation(new Reservation(
-            $reserveTicket->get(Payload::RESERVATION_ID),
-            $reserveTicket->get(Payload::USER_ID),
-            $reserveTicket->get(Payload::SEAT)
-        ));
+        $this->reservations[$ticketReserved->get(Payload::SEAT)] = new Reservation(
+            $ticketReserved->get(Payload::RESERVATION_ID),
+            $ticketReserved->get(Payload::USER_ID),
+            $ticketReserved->get(Payload::SEAT)
+        );
+        ++$this->version;
     }
 
-    public static function blockSeat(State $state, Message $blockSeat): \Generator
+    public function blockSeat(string $seat, int $version): \Generator
     {
-        if ($state->version() !== $blockSeat->get(Payload::VERSION)) {
-            throw new FlightConcurrencyException(sprintf('Flight %s has been modified', $blockSeat->get(Payload::FLIGHT_ID)));
+        if ($this->version !== $version) {
+            throw new FlightConcurrencyException(sprintf('Flight %s has been modified', $this->id));
         }
 
-        if (!$state->isSeatAvailable($blockSeat->get(Payload::SEAT))) {
-            throw new \DomainException(sprintf('Seat %s is not available', $blockSeat->get(Payload::SEAT)));
+        if (!$this->isSeatAvailable($seat)) {
+            throw new \DomainException(sprintf('Seat %s is not available', $seat));
         }
 
-        yield [Event::SEAT_BLOCKED, $blockSeat->payload()];
+        yield [Event::SEAT_BLOCKED, [
+            Payload::FLIGHT_ID => $this->id,
+            Payload::SEAT => $seat,
+            Payload::VERSION => $version
+        ]];
     }
 
-    public static function whenSeatBlocked(State $state, Message $seatBlocked): State
+    public function whenSeatBlocked(Message $seatBlocked): void
     {
-        return $state->withBlockedSeat($seatBlocked->get(Payload::SEAT));
+        $this->blockedSeats[$seatBlocked->get(Payload::SEAT)] = true;
+        ++$this->version;
+    }
+
+    private function isSeatAvailable(string $seat): bool
+    {
+        return !isset($this->reservations[$seat]) && !isset($this->blockedSeats[$seat]);
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'number' => $this->number
+        ];
     }
 }

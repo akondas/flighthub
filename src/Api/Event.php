@@ -31,6 +31,13 @@ class Event implements EventMachineDescription
                 Payload::FLIGHT_ID => Schema::id(),
                 Payload::SEAT => Schema::seat()
             ])
+        )->registerEvent(
+            self::SEAT_BLOCKED,
+            JsonSchema::object([
+                Payload::FLIGHT_ID => Schema::id(),
+                Payload::SEAT => Schema::seat(),
+                Payload::VERSION => Schema::version()
+            ])
         );
     }
 }
