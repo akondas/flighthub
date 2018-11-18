@@ -12,6 +12,9 @@ ReservationConfirmed //reservationId
 CancelReservation-> //reservationId
 ReservationCanceled //reservationId
 
+BlockSeat-> //flightId, seat
+SeatBlocked //flightId, seat
+
 Flights*
 Reservations*
 Tickets*

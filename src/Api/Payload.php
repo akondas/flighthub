@@ -16,4 +16,6 @@ class Payload
     public const SEAT = 'seat';
 
     public const USER_ID = 'userId';
+
+    public const VERSION = 'version';
 }

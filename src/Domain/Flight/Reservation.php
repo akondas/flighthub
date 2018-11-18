@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace FlightHub\Domain\Flight;
 
-use Prooph\EventMachine\Data\ImmutableRecord;
-use Prooph\EventMachine\Data\ImmutableRecordLogic;
-
-final class Reservation implements ImmutableRecord
+final class Reservation
 {
-    use ImmutableRecordLogic;
-
     /**
      * @var string
      */
@@ -31,20 +26,5 @@ final class Reservation implements ImmutableRecord
         $this->id = $id;
         $this->userId = $userId;
         $this->seat = $seat;
-    }
-
-    public function id(): string
-    {
-        return $this->id;
-    }
-
-    public function userId(): string
-    {
-        return $this->userId;
-    }
-
-    public function seat(): string
-    {
-        return $this->seat;
     }
 }

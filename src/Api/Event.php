@@ -13,6 +13,8 @@ class Event implements EventMachineDescription
     public const FLIGHT_ADDED = 'FlightAdded';
     public const TICKET_RESERVED = 'TicketReserved';
 
+    public const SEAT_BLOCKED = 'SeatBlocked';
+
     public static function describe(EventMachine $eventMachine): void
     {
         $eventMachine->registerEvent(
@@ -28,6 +30,13 @@ class Event implements EventMachineDescription
                 Payload::USER_ID => Schema::id(),
                 Payload::FLIGHT_ID => Schema::id(),
                 Payload::SEAT => Schema::seat()
+            ])
+        )->registerEvent(
+            self::SEAT_BLOCKED,
+            JsonSchema::object([
+                Payload::FLIGHT_ID => Schema::id(),
+                Payload::SEAT => Schema::seat(),
+                Payload::VERSION => Schema::version()
             ])
         );
     }
