@@ -15,10 +15,12 @@ Flight ticket booking system.
 ### Commands
 - [x] Adding new flight
 - [x] Reserve ticket
+- [x] Block seat (with optimistic offline lock)
 - [ ] Confirm reservation
 - [ ] Cancel reservation 
 
 ### Queries
+- [x] Health check
 - [x] Show flight (by id)
 - [x] Search flight by number
  

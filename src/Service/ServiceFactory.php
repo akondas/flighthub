@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace FlightHub\Service;
 
-use FlightHub\Api\Aggregate;
+use FlightHub\Application\Aggregate;
 use FlightHub\Http\MessageSchemaMiddleware;
 use FlightHub\Infrastructure\Finder\FlightFinder;
 use FlightHub\Infrastructure\Logger\PsrErrorLogger;
+use FlightHub\Infrastructure\Port\FunctionalPort;
+use FlightHub\Infrastructure\Port\OopPort;
 use FlightHub\Infrastructure\ServiceBus\CommandBus;
 use FlightHub\Infrastructure\ServiceBus\EventBus;
 use FlightHub\Infrastructure\ServiceBus\QueryBus;
@@ -27,6 +29,8 @@ use Prooph\EventMachine\Messaging\Message;
 use Prooph\EventMachine\Persistence\DocumentStore;
 use Prooph\EventMachine\Postgres\PostgresDocumentStore;
 use Prooph\EventMachine\Projecting\AggregateProjector;
+use Prooph\EventMachine\Runtime\FunctionalFlavour;
+use Prooph\EventMachine\Runtime\OopFlavour;
 use Prooph\EventStore\EventStore;
 use Prooph\EventStore\Pdo\PersistenceStrategy;
 use Prooph\EventStore\Pdo\PostgresEventStore;
@@ -39,6 +43,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Zend\Diactoros\Response;
 use Zend\ProblemDetails\ProblemDetailsMiddleware;
 use Zend\ProblemDetails\ProblemDetailsResponseFactory;
@@ -116,6 +122,16 @@ final class ServiceFactory
         return $this->makeSingleton(PersistenceStrategy::class, function () {
             return new PersistenceStrategy\PostgresSingleStreamStrategy();
         });
+    }
+
+    public function oopFlavour(): OopFlavour
+    {
+        $serializer = new Serializer([new PropertyNormalizer()]);
+
+        return new OopFlavour(
+            new OopPort($serializer),
+            new FunctionalFlavour(new FunctionalPort($serializer))
+        );
     }
 
     public function eventStore(): EventStore

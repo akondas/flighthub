@@ -15,6 +15,7 @@ $container = new \Prooph\EventMachine\Container\ReflectionBasedContainer(
         \Prooph\EventMachine\EventMachine::SERVICE_ID_EVENT_BUS => \FlightHub\Infrastructure\ServiceBus\EventBus::class,
         \Prooph\EventMachine\EventMachine::SERVICE_ID_QUERY_BUS => \FlightHub\Infrastructure\ServiceBus\QueryBus::class,
         \Prooph\EventMachine\EventMachine::SERVICE_ID_DOCUMENT_STORE => \Prooph\EventMachine\Persistence\DocumentStore::class,
+        \Prooph\EventMachine\EventMachine::SERVICE_ID_FLAVOUR => \Prooph\EventMachine\Runtime\OopFlavour::class
     ]
 );
 

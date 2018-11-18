@@ -14,7 +14,7 @@
     "nikic/fast-route": "^1.0",
     "prooph/humus-amqp-producer": "^2.0",
     "prooph/pdo-event-store": "^1.0",
-    "proophsoftware/event-machine": "^v0.18",
+    "proophsoftware/event-machine": "dev-master#b65c7d2dc29959d8ad6364a6c3076a2efdf04c25",
     "proophsoftware/postgres-document-store": "^0.3",
     "psr/http-server-middleware": "^1.0",
     "psr/log": "^1.0",
@@ -23,7 +23,9 @@
     "zendframework/zend-expressive-helpers": "^5.0",
     "zendframework/zend-problem-details": "^1.0",
     "zendframework/zend-stdlib": "^3.1.0",
-    "zendframework/zend-stratigility": "^3.0"
+    "zendframework/zend-stratigility": "^3.0",
+    "symfony/serializer": "^4.1",
+    "symfony/property-access": "^4.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.0",

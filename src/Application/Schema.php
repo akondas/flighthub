@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FlightHub\Api;
+namespace FlightHub\Application;
 
 use Prooph\EventMachine\JsonSchema\JsonSchema;
 use Prooph\EventMachine\JsonSchema\Type\ArrayType;
@@ -35,7 +35,7 @@ class Schema
 
     public static function flight(): TypeRef
     {
-        return JsonSchema::typeRef(Aggregate::FLIGHT);
+        return JsonSchema::typeRef(Query::FLIGHT);
     }
 
     public static function flightList(): ArrayType
@@ -50,7 +50,7 @@ class Schema
 
     public static function healthCheck(): TypeRef
     {
-        return JsonSchema::typeRef(Type::HEALTH_CHECK);
+        return JsonSchema::typeRef(Query::HEALTH_CHECK);
     }
 
     public static function queryPagination(): array

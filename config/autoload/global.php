@@ -3,14 +3,16 @@ declare(strict_types = 1);
 
 namespace FlightHub\Config;
 
-use FlightHub\Api\Aggregate;
-use FlightHub\Api\Command;
-use FlightHub\Api\Event;
-use FlightHub\Api\Handler;
-use FlightHub\Api\Listener;
-use FlightHub\Api\Projection;
-use FlightHub\Api\Query;
-use FlightHub\Api\Type;
+use FlightHub\Application\Aggregate;
+use FlightHub\Application\Command;
+use FlightHub\Application\Event;
+use FlightHub\Application\FlightDescription;
+use FlightHub\Application\Handler;
+use FlightHub\Application\Listener;
+use FlightHub\Application\MessageDescription;
+use FlightHub\Application\Projection;
+use FlightHub\Application\Query;
+use FlightHub\Application\Type;
 
 return [
     'environment' => getenv('PROOPH_ENV')?: 'prod',
@@ -36,13 +38,8 @@ return [
     ],
     'event_machine' => [
         'descriptions' => [
-            Type::class,
-            Command::class,
-            Event::class,
-            Query::class,
-            Handler::class,
-            Projection::class,
-            Listener::class,
+            MessageDescription::class,
+            FlightDescription::class
         ]
     ]
 ];

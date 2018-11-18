@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FlightHub\Api;
+namespace FlightHub\Application;
 
 class Payload
 {
