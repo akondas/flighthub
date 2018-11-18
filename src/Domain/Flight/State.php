@@ -27,9 +27,22 @@ final class State implements ImmutableRecord
      */
     private $reservations = [];
 
+    /**
+     * @var string[]
+     */
+    private $blockedSeats = [];
+
+    /**
+     * @var int
+     */
+    private $version = 1;
+
     private static function arrayPropItemTypeMap(): array
     {
-        return ['reservations' => Type::RESERVATION];
+        return [
+            'reservations' => Type::RESERVATION,
+            'blockedSeats' => self::PHP_TYPE_STRING
+        ];
     }
 
     public function flightId(): string
@@ -50,16 +63,36 @@ final class State implements ImmutableRecord
         return $this->reservations;
     }
 
+    public function blockedSeats(): array
+    {
+        return array_keys($this->blockedSeats);
+    }
+
+    public function version(): int
+    {
+        return $this->version;
+    }
+
     public function withReservation(Reservation $reservation): State
     {
         $copy = clone $this;
         $copy->reservations[$reservation->seat()] = $reservation;
+        ++$copy->version;
+
+        return $copy;
+    }
+
+    public function withBlockedSeat(string $seat): State
+    {
+        $copy = clone $this;
+        $copy->blockedSeats[$seat] = true;
+        ++$copy->version;
 
         return $copy;
     }
 
     public function isSeatAvailable(string $seat): bool
     {
-        return !isset($this->reservations[$seat]);
+        return !isset($this->reservations[$seat]) && !isset($this->blockedSeats[$seat]);
     }
 }

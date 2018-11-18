@@ -6,6 +6,7 @@ namespace FlightHub\Api;
 
 use Prooph\EventMachine\JsonSchema\JsonSchema;
 use Prooph\EventMachine\JsonSchema\Type\ArrayType;
+use Prooph\EventMachine\JsonSchema\Type\IntType;
 use Prooph\EventMachine\JsonSchema\Type\StringType;
 use Prooph\EventMachine\JsonSchema\Type\TypeRef;
 use Prooph\EventMachine\JsonSchema\Type\UuidType;
@@ -40,6 +41,11 @@ class Schema
     public static function flightList(): ArrayType
     {
         return JsonSchema::array(self::flight());
+    }
+
+    public static function version(): IntType
+    {
+        return JsonSchema::integer()->withMinimum(1);
     }
 
     public static function healthCheck(): TypeRef

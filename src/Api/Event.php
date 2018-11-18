@@ -13,6 +13,8 @@ class Event implements EventMachineDescription
     public const FLIGHT_ADDED = 'FlightAdded';
     public const TICKET_RESERVED = 'TicketReserved';
 
+    public const SEAT_BLOCKED = 'SeatBlocked';
+
     public static function describe(EventMachine $eventMachine): void
     {
         $eventMachine->registerEvent(
