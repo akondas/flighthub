@@ -10,7 +10,6 @@ use FlightHub\Application\Query;
 use Prooph\EventMachine\Messaging\Message;
 use Prooph\EventMachine\Messaging\MessageBag;
 use Prooph\EventMachine\Runtime\Functional\Port;
-use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 final class FunctionalPort implements Port

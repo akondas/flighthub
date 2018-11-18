@@ -1,9 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-
 namespace FlightHub\Domain\Event;
-
 
 use FlightHub\Domain\Event;
 
@@ -25,7 +24,6 @@ final class SeatBlocked implements Event
         $this->seat = $seat;
     }
 
-
     public function flightId(): string
     {
         return $this->flightId;
@@ -35,5 +33,4 @@ final class SeatBlocked implements Event
     {
         return $this->seat;
     }
-
 }

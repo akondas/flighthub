@@ -6,7 +6,9 @@ namespace FlightHub\Infrastructure\Port;
 
 use FlightHub\Application\Aggregate;
 use FlightHub\Application\Command\ReserveTicket;
+use FlightHub\Domain\Event;
 use FlightHub\Domain\Flight;
+use FlightHub\Domain\Aggregate as DomainAggregate;
 use Prooph\EventMachine\Exception\InvalidArgumentException;
 use Prooph\EventMachine\Runtime\Oop\Port;
 use Symfony\Component\Serializer\Serializer;
@@ -56,7 +58,10 @@ final class OopPort implements Port
      */
     public function popRecordedEvents($aggregate): array
     {
-        //Duck typing, do not do this in production but rather use your own interfaces
+        if (!$aggregate instanceof DomainAggregate) {
+            throw new InvalidArgumentException(sprintf('Aggregate %s must be instance of %s', \get_class($aggregate), DomainAggregate::class));
+        }
+
         return $aggregate->popRecordedEvents();
     }
 
@@ -65,7 +70,14 @@ final class OopPort implements Port
      */
     public function applyEvent($aggregate, $customEvent): void
     {
-        //Duck typing, do not do this in production but rather use your own interfaces
+        if (!$aggregate instanceof DomainAggregate) {
+            throw new InvalidArgumentException(sprintf('Aggregate %s must be instance of %s', \get_class($aggregate), DomainAggregate::class));
+        }
+
+        if (!$customEvent instanceof Event) {
+            throw new InvalidArgumentException(sprintf('Event %s must be instance of %s', \get_class($customEvent), Event::class));
+        }
+
         $aggregate->apply($customEvent);
     }
 

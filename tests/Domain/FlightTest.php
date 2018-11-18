@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace FlightHubTest\Domain;
 
-use FlightHub\Application\Event;
-use FlightHub\Application\Payload;
 use FlightHub\Domain\Event\FlightAdded;
 use FlightHub\Domain\Exception\FlightConcurrencyException;
 use FlightHub\Domain\Flight;
@@ -50,7 +48,8 @@ final class FlightTest extends BaseTestCase
         self::applyEvents($flight);
 
         $flight->blockSeat('24A', 1);
-        self::applyEvents($flight);;
+        self::applyEvents($flight);
+        ;
 
         self::expectException(FlightConcurrencyException::class);
 
