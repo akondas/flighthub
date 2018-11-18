@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/akondas/flighthub.svg?branch=master)](https://travis-ci.org/akondas/flighthub)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Flight ticket booking system.
+Flight ticket booking system implemented with CQRS and ES.
 
 ![FlightHub](eventstorming.png "FlightHub")
 
@@ -15,7 +15,7 @@ Flight ticket booking system.
 ### Commands
 - [x] Adding new flight
 - [x] Reserve ticket
-- [x] Block seat (with optimistic offline lock)
+- [x] Block seat (with optimistic offline lock - presentation showcase)
 - [ ] Confirm reservation
 - [ ] Cancel reservation 
 
@@ -23,6 +23,11 @@ Flight ticket booking system.
 - [x] Health check
 - [x] Show flight (by id)
 - [x] Search flight by number
+ 
+### Other
+- [x] Frameworkless domain (with EventMachine new Flavour feature)
+- [ ] Custom projections
+- [ ] Integration tests
  
 ## Installation
 
