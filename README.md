@@ -13,21 +13,30 @@ Flight ticket booking system implemented with CQRS and ES.
 ## Features
 
 ### Commands
-- [x] Adding new flight
+- [x] Add new flight
 - [x] Reserve ticket
-- [x] Block seat (with optimistic offline lock - presentation showcase)
-- [ ] Confirm reservation
-- [ ] Cancel reservation 
+- [x] Block seat (with Optimistic Offline Lock)
+- [ ] Confirm reservation (with Pessimistic Offline Lock)
+- [ ] Cancel reservation (with Implicit Lock)
+- [ ] Register customer
+- [ ] Add customer address
+- [ ] Change customer email (with Coarse-Grained Lock)
+
+> Offline Concurrency Patterns presentation showcase
 
 ### Queries
 - [x] Health check
 - [x] Show flight (by id)
 - [x] Search flight by number
- 
+- [ ] Show customer (by id)
+- [ ] Search customers
+- [ ] Show confirmed reservations (by flightId)
+
 ### Other
-- [x] Frameworkless domain (with EventMachine new Flavour feature)
+- [x] Frameworkless domain (with EventMachine new **Flavour** feature)
 - [ ] Custom projections
 - [ ] Integration tests
+ 
  
 ## Installation
 

@@ -15,7 +15,17 @@ ReservationCanceled //reservationId
 BlockSeat-> //flightId, seat
 SeatBlocked //flightId, seat
 
+RegisterCustomer-> //customerId, email
+CustomerRegistered //customerId, email
+
+AddCustomerAddress-> //customerId, addressId, street, city, postCode
+CustomerAddressAdded //customerId, addressId, street, city, postCode
+
+ChangeCustomerEmail-> //customerId, email
+CustomerEmailChanged //customerId, oldEmail, newEmail
+
+
 Flights*
 Reservations*
 Tickets*
-Users*
+Customers*

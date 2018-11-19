@@ -1,6 +1,14 @@
 {
   "name": "akondas/flighthub",
+  "type": "project",
   "description": "Flight ticket booking system powered by Event Machine from prooph",
+  "keywords": [
+    "cqrs",
+    "cqrs es",
+    "event sourcing",
+    "event storming",
+    "event machine"
+  ],
   "license": "MIT",
   "authors": [
     {
@@ -19,18 +27,18 @@
     "psr/http-server-middleware": "^1.0",
     "psr/log": "^1.0",
     "roave/security-advisories": "dev-master",
+    "symfony/property-access": "^4.1",
+    "symfony/serializer": "^4.1",
     "zendframework/zend-config-aggregator": "^0.2.0",
     "zendframework/zend-expressive-helpers": "^5.0",
     "zendframework/zend-problem-details": "^1.0",
     "zendframework/zend-stdlib": "^3.1.0",
-    "zendframework/zend-stratigility": "^3.0",
-    "symfony/serializer": "^4.1",
-    "symfony/property-access": "^4.1"
+    "zendframework/zend-stratigility": "^3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.0",
     "friendsofphp/php-cs-fixer": "^2.13",
-    "phpstan/phpstan": "^0.10.5"
+    "phpstan/phpstan": "^0.10.5",
+    "phpunit/phpunit": "^6.0"
   },
   "autoload": {
     "psr-4": {
@@ -45,9 +53,9 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "test": "vendor/bin/phpunit",
-    "fix-cs": "vendor/bin/php-cs-fixer fix",
     "check-cs": "vendor/bin/php-cs-fixer fix --dry-run",
-    "phpstan": "vendor/bin/phpstan analyse src tests --level=max"
+    "fix-cs": "vendor/bin/php-cs-fixer fix",
+    "phpstan": "vendor/bin/phpstan analyse src tests --level=max",
+    "test": "vendor/bin/phpunit"
   }
 }
