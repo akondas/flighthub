@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FlightHub\Infrastructure\Port;
 
 use FlightHub\Application\Aggregate;
+use FlightHub\Application\Command\BlockSeat;
 use FlightHub\Application\Command\ReserveTicket;
 use FlightHub\Domain\Event;
 use FlightHub\Domain\Flight;
@@ -47,6 +48,10 @@ final class OopPort implements Port
             case ReserveTicket::class:
                 /** @var Flight $aggregate */
                 $aggregate->reserveTicket($customCommand->reservationId(), $customCommand->userId(), $customCommand->seat());
+                break;
+            case BlockSeat::class:
+                /** @var Flight $aggregate */
+                $aggregate->blockSeat($customCommand->seat(), $customCommand->version());
                 break;
             default:
                 throw new InvalidArgumentException(sprintf('Unknown command: %s'.\get_class($customCommand)));

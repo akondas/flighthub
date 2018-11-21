@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace FlightHub\Application;
 
-use FlightHub\Domain\Aggregate\Flight;
 use Prooph\EventMachine\EventMachine;
 use Prooph\EventMachine\EventMachineDescription;
-use Prooph\EventMachine\Runtime\Oop\InterceptorHint;
+use Prooph\EventMachine\Runtime\Oop\FlavourHint;
 
 final class FlightDescription implements EventMachineDescription
 {
@@ -16,20 +15,20 @@ final class FlightDescription implements EventMachineDescription
         $eventMachine->process(Command::ADD_FLIGHT)
             ->withNew(Aggregate::FLIGHT)
             ->identifiedBy(Payload::FLIGHT_ID)
-            ->handle([InterceptorHint::class, 'useAggregate'])
+            ->handle([FlavourHint::class, 'useAggregate'])
             ->recordThat(Event::FLIGHT_ADDED)
-            ->apply([InterceptorHint::class, 'useAggregate']);
+            ->apply([FlavourHint::class, 'useAggregate']);
 
         $eventMachine->process(Command::RESERVE_TICKET)
             ->withExisting(Aggregate::FLIGHT)
-            ->handle([InterceptorHint::class, 'useAggregate'])
+            ->handle([FlavourHint::class, 'useAggregate'])
             ->recordThat(Event::TICKET_RESERVED)
-            ->apply([InterceptorHint::class, 'useAggregate']);
+            ->apply([FlavourHint::class, 'useAggregate']);
 
         $eventMachine->process(Command::BLOCK_SEAT)
             ->withExisting(Aggregate::FLIGHT)
-            ->handle([InterceptorHint::class, 'useAggregate'])
+            ->handle([FlavourHint::class, 'useAggregate'])
             ->recordThat(Event::SEAT_BLOCKED)
-            ->apply([InterceptorHint::class, 'useAggregate']);
+            ->apply([FlavourHint::class, 'useAggregate']);
     }
 }

@@ -43,6 +43,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Zend\Diactoros\Response;
@@ -126,7 +127,10 @@ final class ServiceFactory
 
     public function oopFlavour(): OopFlavour
     {
-        $serializer = new Serializer([new PropertyNormalizer()]);
+        $serializer = new Serializer([
+            new PropertyNormalizer(),
+            new ObjectNormalizer()
+        ]);
 
         return new OopFlavour(
             new OopPort($serializer),

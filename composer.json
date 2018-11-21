@@ -22,7 +22,7 @@
     "nikic/fast-route": "^1.0",
     "prooph/humus-amqp-producer": "^2.0",
     "prooph/pdo-event-store": "^1.0",
-    "proophsoftware/event-machine": "dev-master#b65c7d2dc29959d8ad6364a6c3076a2efdf04c25",
+    "proophsoftware/event-machine": "^0.20.0",
     "proophsoftware/postgres-document-store": "^0.3",
     "psr/http-server-middleware": "^1.0",
     "psr/log": "^1.0",
