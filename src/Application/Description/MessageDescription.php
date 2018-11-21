@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace FlightHub\Application;
+namespace FlightHub\Application\Description;
 
-use FlightHub\Domain\Aggregate\Flight;
 use FlightHub\Infrastructure\Finder\FlightFinder;
 use FlightHub\Infrastructure\System\HealthCheckResolver;
 use Prooph\EventMachine\EventMachine;

@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types = 1);
 
-return \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
+return \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) {
     $r->addRoute(
         ['POST'],
         '/messagebox',

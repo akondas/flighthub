@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace FlightHub\Application;
+namespace FlightHub\Application\Description;
 
-use FlightHub\Domain\Aggregate\Flight;
+use FlightHub\Application\Aggregate;
+use FlightHub\Application\Command;
+use FlightHub\Application\Event;
+use FlightHub\Application\Payload;
 use Prooph\EventMachine\EventMachine;
 use Prooph\EventMachine\EventMachineDescription;
 use Prooph\EventMachine\Runtime\Oop\InterceptorHint;
